@@ -55,9 +55,9 @@ function Backup_Shortcuts_BackupRun ($folder, $multitinancy=true)
         // Now, for each table, we dump the content in json, this is a
         // memory intensive operation
         $to_json = array();
-        foreach ($models as $model) {
-            $to_json[$model] = Pluf_Test_Fixture::dump($model, false);
-        }
+//         foreach ($models as $model) {
+//             $to_json[$model] = Pluf_Test_Fixture::dump($model, false);
+//         }
         file_put_contents(sprintf('%s/%s.json', $folder, $app), 
                 json_encode($to_json), LOCK_EX);
     }
@@ -104,9 +104,9 @@ function Backup_Shortcuts_RestoreRun ($folder, $multitinancy=true)
         $full_data = json_decode(
                 file_get_contents(sprintf('%s/%s.json', $folder, $app)), 
                 true);
-        foreach ($full_data as $model => $data) {
-            Pluf_Test_Fixture::load($data, false);
-        }
+//         foreach ($full_data as $model => $data) {
+//             Pluf_Test_Fixture::load($data, false);
+//         }
     }
     return true;
 }

@@ -26,7 +26,7 @@ return array(
                 'method' => 'create',
                 'http-method' => 'GET',
                 'precond' => array(
-                        'Pluf_Precondition::adminRequired'
+                        'User_Precondition::ownerRequired'
                 )
         ),
         array(
@@ -35,7 +35,7 @@ return array(
                 'method' => 'restore',
                 'http-method' => 'POST',
                 'precond' => array(
-                        'Pluf_Precondition::adminRequired'
+                        'User_Precondition::ownerRequired'
                 )
         ),
         array(
@@ -44,7 +44,7 @@ return array(
                 'method' => 'delete',
                 'http-method' => 'delete',
                 'precond' => array(
-                        'Pluf_Precondition::adminRequired'
+                        'User_Precondition::ownerRequired'
                 )
         ),
         /*
@@ -56,7 +56,7 @@ return array(
                 'method' => 'create',
                 'http-method' => 'POST',
                 'precond' => array(
-                        'Pluf_Precondition::adminRequired'
+                        'User_Precondition::ownerRequired'
                 )
         ),
         array(
@@ -65,7 +65,7 @@ return array(
                 'method' => 'findObject',
                 'http-method' => 'GET',
                 'precond' => array(
-                        'Pluf_Precondition::adminRequired'
+                        'User_Precondition::ownerRequired'
                 ),
                 'params' => array(
                         'model' => 'Backup_Backup',
@@ -98,7 +98,7 @@ return array(
                         'model' => 'Backup_Backup'
                 ),
                 'precond' => array(
-                        'Pluf_Precondition::adminRequired'
+                        'User_Precondition::ownerRequired'
                 )
         ),
         array(
@@ -107,7 +107,7 @@ return array(
                 'method' => 'deleteObject',
                 'http-method' => 'DELETE',
                 'precond' => array(
-                        'Pluf_Precondition::adminRequired'
+                        'User_Precondition::ownerRequired'
                 ),
                 'params' => array(
                         'model' => 'Backup_Backup'
@@ -119,7 +119,7 @@ return array(
                 'method' => 'updateObject',
                 'http-method' => 'POST',
                 'precond' => array(
-                        'Pluf_Precondition::adminRequired'
+                        'User_Precondition::ownerRequired'
                 ),
                 'params' => array(
                         'model' => 'Backup_Backup'
@@ -133,7 +133,7 @@ return array(
                 'method' => 'restore',
                 'http-method' => 'POST',
                 'precond' => array(
-                        'Pluf_Precondition::adminRequired'
+                        'User_Precondition::ownerRequired'
                 )
         ),
         array(
@@ -142,7 +142,7 @@ return array(
                 'method' => 'download',
                 'http-method' => 'GET',
                 'precond' => array(
-                        'Pluf_Precondition::adminRequired'
+                        'User_Precondition::ownerRequired'
                 )
         )
 );
