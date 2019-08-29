@@ -18,131 +18,54 @@
  */
 return array(
         /*
-         * Old systems API
+         * Snapshots
          */
         array(
-                'regex' => '#^/system$#',
-                'model' => 'Backup_Views_System',
-                'method' => 'create',
-                'http-method' => 'GET',
-                'precond' => array(
-                        'User_Precondition::ownerRequired'
-                )
+                'regex' => '#^/snapshots$#',
+                'model' => 'Backup_Views_Snapshot',
+                'method' => 'find',
+                'http-method' => 'GET'
         ),
         array(
-                'regex' => '#^/system$#',
-                'model' => 'Backup_Views_System',
-                'method' => 'restore',
-                'http-method' => 'POST',
-                'precond' => array(
-                        'User_Precondition::ownerRequired'
-                )
+                'regex' => '#^/snapshots$#',
+                'model' => 'Backup_Views_Snapshot',
+                'method' => 'find',
+                'http-method' => 'POST'
         ),
         array(
-                'regex' => '#^/system$#',
-                'model' => 'Backup_Views_System',
-                'method' => 'delete',
-                'http-method' => 'delete',
-                'precond' => array(
-                        'User_Precondition::ownerRequired'
-                )
+                'regex' => '#^/snapshots$#',
+                'model' => 'Backup_Views_Snapshot',
+                'method' => 'find',
+                'http-method' => 'DELETE'
         ),
         /*
-         * New API
+         * Snapshot itmes
          */
         array(
-                'regex' => '#^/new$#',
-                'model' => 'Backup_Views',
-                'method' => 'create',
+                'regex' => '#^/snapshots/(?P<modelId>\d+)$#',
+                'model' => 'Backup_Views_Snapshot',
+                'method' => 'method',
+                'http-method' => 'GET',
+        ),
+        array(
+                'regex' => '#^/snapshots/(?P<modelId>\d+)$#',
+                'model' => 'Backup_Views_Snapshot',
+                'method' => 'method',
                 'http-method' => 'POST',
-                'precond' => array(
-                        'User_Precondition::ownerRequired'
-                )
         ),
         array(
-                'regex' => '#^/find$#',
-                'model' => 'Pluf_Views',
-                'method' => 'findObject',
-                'http-method' => 'GET',
-                'precond' => array(
-                        'User_Precondition::ownerRequired'
-                ),
-                'params' => array(
-                        'model' => 'Backup_Backup',
-                        'listFilters' => array(
-                                'title',
-                                'description'
-                        ),
-                        'listDisplay' => array(
-                                'title' => 'title',
-                                'description' => 'description'
-                        ),
-                        'searchFields' => array(
-                                'title',
-                                'description'
-                        ),
-                        'sortFields' => array(
-                                'title',
-                                'description',
-                                'creation_date',
-                                'modif_dtime'
-                        )
-                )
-        ),
-        array(
-                'regex' => '#^/(?P<modelId>\d+)$#',
-                'model' => 'Pluf_Views',
-                'method' => 'getObject',
-                'http-method' => 'GET',
-                'params' => array(
-                        'model' => 'Backup_Backup'
-                ),
-                'precond' => array(
-                        'User_Precondition::ownerRequired'
-                )
-        ),
-        array(
-                'regex' => '#^/(?P<modelId>\d+)$#',
-                'model' => 'Pluf_Views',
-                'method' => 'deleteObject',
+                'regex' => '#^/snapshots/(?P<modelId>\d+)$#',
+                'model' => 'Backup_Views_Snapshot',
+                'method' => 'method',
                 'http-method' => 'DELETE',
-                'precond' => array(
-                        'User_Precondition::ownerRequired'
-                ),
-                'params' => array(
-                        'model' => 'Backup_Backup'
-                )
         ),
+        /*
+         * Resource
+         */
         array(
-                'regex' => '#^/(?P<modelId>\d+)$#',
-                'model' => 'Pluf_Views',
-                'method' => 'updateObject',
-                'http-method' => 'POST',
-                'precond' => array(
-                        'User_Precondition::ownerRequired'
-                ),
-                'params' => array(
-                        'model' => 'Backup_Backup'
-                )
-        ),
-        
-        // Functions
-        array(
-                'regex' => '#^/(?P<modelId>\d+)/restore$#',
-                'model' => 'Backup_Views',
-                'method' => 'restore',
-                'http-method' => 'POST',
-                'precond' => array(
-                        'User_Precondition::ownerRequired'
-                )
-        ),
-        array(
-                'regex' => '#^/(?P<modelId>\d+)/download$#',
-                'model' => 'Backup_Views',
-                'method' => 'download',
+                'regex' => '#^/snapshots/(?P<modelId>\d+)/content$#',
+                'model' => 'Backup_Views_Snapshot',
+                'method' => 'method',
                 'http-method' => 'GET',
-                'precond' => array(
-                        'User_Precondition::ownerRequired'
-                )
-        )
+        ),
 );
