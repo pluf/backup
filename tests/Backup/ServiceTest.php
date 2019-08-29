@@ -94,8 +94,10 @@ class Backup_ServiceTest extends TestCase
      */
     public function createBackupTest()
     {
+        CMS_
+
         $zipFilePath = __DIR__ . '/../tmp/backupfile' . rand() . '.zip';
         Backup_Service::storeData($zipFilePath);
-        // TODO: maso, 2019: assert file exist
+        Test_Assert::assertTrue(file_exists($zipFilePath), 'Backup file is not created');
     }
 }
