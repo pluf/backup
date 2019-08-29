@@ -40,7 +40,7 @@ class Backup_Service extends Pluf_Service
      *
      * @param string $zipFilePath
      */
-    public function loadData($zipFilePath)
+    public static function loadData($zipFilePath)
     {}
 
     /**
@@ -51,6 +51,6 @@ class Backup_Service extends Pluf_Service
      *
      * @param string $zipFilePath
      */
-    public function storeData($zipFilePath)
+    public static function storeData($zipFilePath)
     {}
 }

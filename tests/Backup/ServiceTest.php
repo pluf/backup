@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+require_once 'Pluf.php';
+
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\IncompleteTestError;
 
@@ -27,104 +29,73 @@ use PHPUnit\Framework\IncompleteTestError;
 class Backup_ServiceTest extends TestCase
 {
 
-    private $_config;
-
-    private $_arrayData = array(
-        'hello' => 'world',
-        'foo' => false,
-        0 => array(
-            'foo',
-            'bar'
-        )
-    );
-
     /**
      *
-     * @before
+     * @beforeClass
      */
-    public function setUp()
+    public static function installApps()
     {
-        if(!array_key_exists('_PX_config', $GLOBALS)){
-            $GLOBALS['_PX_config'] = array();
+        $cfg = include __DIR__ . '/../conf/config.php';
+        $cfg['multitenant'] = false;
+        Pluf::start($cfg);
+        $m = new Pluf_Migration(Pluf::f('installed_apps'));
+        $m->install();
+
+        // Test tenant
+        $tenant = new Pluf_Tenant();
+        $tenant->domain = 'localhost';
+        $tenant->subdomain = 'www';
+        $tenant->validate = true;
+        if (true !== $tenant->create()) {
+            throw new Pluf_Exception('Faile to create new tenant');
         }
-        $this->_config = $GLOBALS['_PX_config']; // backup
-        $GLOBALS['_PX_config']['cache_engine'] = 'Pluf_Cache_File';
-        $GLOBALS['_PX_config']['cache_timeout'] = 5;
-        $GLOBALS['_PX_config']['cache_file_folder'] = '/tmp/pluf_unittest_cache';
+
+        $m->init($tenant);
+
+        if (! isset($GLOBALS['_PX_request'])) {
+            $GLOBALS['_PX_request'] = new Pluf_HTTP_Request('/');
+        }
+        $GLOBALS['_PX_request']->tenant = $tenant;
+
+        // Test user
+        $user = new User_Account();
+        $user->login = 'test';
+        $user->is_active = true;
+        if (true !== $user->create()) {
+            throw new Exception();
+        }
+        // Credential of user
+        $credit = new User_Credential();
+        $credit->setFromFormData(array(
+            'account_id' => $user->id
+        ));
+        $credit->setPassword('test');
+        if (true !== $credit->create()) {
+            throw new Exception();
+        }
+
+        $per = User_Role::getFromString('tenant.owner');
+        $user->setAssoc($per);
     }
 
     /**
      *
-     * @after
+     * @afterClass
      */
-    public function tearDown()
+    public static function uninstallApps()
     {
-        $GLOBALS['_PX_config'] = $this->_config;
-    }
-
-    /**
-     *
-     * @test
-     * @expectedException Pluf_Exception_SettingError
-     */
-    public function testConstructor()
-    {
-        unset($GLOBALS['_PX_config']['cache_file_folder']);
-        Pluf_Cache::factory();
-    }
-
-    /**
-     *
-     * @test
-     */
-    public function testBasic()
-    {
-        $cache = Pluf_Cache::factory();
-        $success = $cache->set('test1', 'foo1');
-        $this->assertTrue($success);
-        $this->assertEquals('foo1', $cache->get('test1'));
-    }
-
-    /**
-     *
-     * @test
-     */
-    public function testGetUnknownKey()
-    {
-        $cache = Pluf_Cache::factory();
-        $this->assertNull(null, $cache->get('unknown'));
+        $m = new Pluf_Migration(Pluf::f('installed_apps'));
+        $m->unInstall();
     }
 
     /**
      *
      * @test
      */
-    public function testGetDefault()
+    public function createBackupTest()
     {
-        $cache = Pluf_Cache::factory();
-        $this->assertEquals('default', $cache->get('unknown', 'default'));
-    }
-
-    /**
-     *
-     * @test
-     */
-    public function testSerialized()
-    {
-        $cache = Pluf_Cache::factory();
-        $success = $cache->set('array', $this->_arrayData);
-        $this->assertTrue($success);
-        $this->assertEquals($this->_arrayData, $cache->get('array'));
-
-        $obj = new stdClass();
-        $obj->foo = 'bar';
-        $obj->hello = 'world';
-        $success = $cache->set('object', $obj);
-        $this->assertTrue($success);
-        $this->assertEquals($obj, $cache->get('object'));
-
-        unset($obj);
-        $this->assertInstanceOf(stdClass::class, $cache->get('object'));
-        $this->assertEquals('world', $cache->get('object')->hello);
+        $zipFilePath = __DIR__ . '/../tmp/backupfile' . rand() . '.zip';
+        Backup_Service::storeData($zipFilePath);
+        // TODO: maso, 2019: assert file exist
     }
 }
