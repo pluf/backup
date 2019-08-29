@@ -94,10 +94,26 @@ class Backup_ServiceTest extends TestCase
      */
     public function createBackupTest()
     {
-        CMS_
+        // we have to init client for eny test
+        $client = new Test_Client(array());
+        $client->clean();
+
+        $c = new CMS_Content();
+        $c->file_path = Pluf_Tenant::storagePath() . '/test.txt';
+        $c->mime_time = 'text/plain';
+        $c->name = 'test-content-' . rand();
+        $c->create();
+
+        // create file
+        $myfile = fopen($c->file_path, "w") or die("Unable to open file!");
+        $txt = "John Doe\n";
+        fwrite($myfile, $txt);
+        $txt = "Jane Doe\n";
+        fwrite($myfile, $txt);
+        fclose($myfile);
 
         $zipFilePath = __DIR__ . '/../tmp/backupfile' . rand() . '.zip';
-        Backup_Service::storeData($zipFilePath);
+        Pluf\Backup\Service::storeData($zipFilePath);
         Test_Assert::assertTrue(file_exists($zipFilePath), 'Backup file is not created');
     }
 }
