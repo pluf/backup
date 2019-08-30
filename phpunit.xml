@@ -9,15 +9,16 @@
 	<!-- Code coverage -->
 	<filter>
 		<whitelist addUncoveredFilesFromWhitelist="true">
-			<directory suffix=".php"></directory>
+			<directory suffix=".php">./</directory>
             <exclude>
                 <directory>./Tests</directory>
                 <directory>./vendor</directory>
                 <directory>./build</directory>
+				<file>./run.php</file>
             </exclude>
 		</whitelist>
 	</filter>
-	<!-- <logging>
+	<logging>
 		<log type="coverage-clover" target="build/logs/clover.xml" />
-	</logging> -->
+	</logging>
 </phpunit>
