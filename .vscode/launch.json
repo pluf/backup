@@ -5,12 +5,21 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Launch currently open script",
+            "name": "Listen for XDebug",
             "type": "php",
             "request": "launch",
-            "program": "${file}",
-            "cwd": "${fileDirname}",
-            "port": 9090
+            "port": 9000
+        },
+        {
+            "name": "Test (Backup)",
+            "type": "php",
+            "request": "launch",
+            "program": "${workspaceFolder}/run.php",
+            "cwd": "${workspaceFolder}",
+            "hostname": "localhost",
+            "port": 9000,
+            "runtimeExecutable": "php",
+            "stopOnEntry": true
         }
     ]
 }

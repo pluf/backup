@@ -22,17 +22,17 @@ require_once 'Pluf.php';
 
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\IncompleteTestError;
-
-use \Pluf;
-use \Pluf_Tenant;
-use \Pluf_Migration;
-use \Test_Client;
-use \Test_Assert;
-use \User_Role;
-use \User_Account;
-use \User_Credential;
-use \CMS_Content;
-
+use Pluf;
+use Pluf_Tenant;
+use Pluf_Migration;
+use Test_Client;
+use Test_Assert;
+use User_Role;
+use User_Account;
+use User_Credential;
+use CMS_Content;
+use CMS_Term;
+use CMS_TermTaxonomy;
 
 /**
  *
@@ -111,11 +111,24 @@ class ServiceTest extends TestCase
         $client = new Test_Client(array());
         $client->clean();
 
+        $name = 'test-content-' . rand();
+
         $c = new CMS_Content();
         $c->file_path = Pluf_Tenant::storagePath() . '/test.txt';
         $c->mime_time = 'text/plain';
-        $c->name = 'test-content-' . rand();
+        $c->name = $name;
         $c->create();
+
+        $term = new CMS_Term();
+        $term->name = "my term";
+        $term->create();
+
+        $termtaxo = new CMS_TermTaxonomy();
+        $termtaxo->term_id = $term;
+        $termtaxo->taxonomy = "category";
+        $termtaxo->create();
+
+        $termtaxo->setAssoc($c);
 
         // create file
         $myfile = fopen($c->file_path, "w") or die("Unable to open file!");
@@ -128,5 +141,37 @@ class ServiceTest extends TestCase
         $zipFilePath = __DIR__ . '/tmp/backupfile' . rand() . '.zip';
         Pluf\Backup\Service::storeData($zipFilePath);
         Test_Assert::assertTrue(file_exists($zipFilePath), 'Backup file is not created');
+
+        $termtaxo->delete();
+        $term->delete();
+        $c->delete();
+
+        Pluf\Backup\Service::loadData($zipFilePath);
+
+        Pluf::loadFunction('CMS_Shortcuts_GetNamedContentOr404');
+        $c = CMS_Shortcuts_GetNamedContentOr404($name);
+        Test_Assert::assertFalse($c->isAnonymous());
+        $list = $c->get_term_taxonomies_list();
+
+        $zipFilePath2 = __DIR__ . '/tmp/backupfile2-' . rand() . '.zip';
+        Pluf\Backup\Service::storeData($zipFilePath2);
+        Test_Assert::assertTrue(file_exists($zipFilePath2), 'Backup file is not created');
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function loadTemplate()
+    {
+        // we have to init client for eny test
+        $client = new Test_Client(array());
+        $client->clean();
+
+        Pluf\Backup\Service::loadData(__DIR__ . '/template-001.zip');
+
+        $zipFilePath2 = __DIR__ . '/tmp/templateback-' . rand() . '.zip';
+        Pluf\Backup\Service::storeData($zipFilePath2);
+        Test_Assert::assertTrue(file_exists($zipFilePath2), 'Backup file is not created');
     }
 }
