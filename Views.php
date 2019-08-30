@@ -16,11 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+namespace Pluf\Backup;
+
 Pluf::loadFunction('Pluf_Shortcuts_GetObjectOr404');
 Pluf::loadFunction('Backup_Shortcuts_BackupRun');
 Pluf::loadFunction('Pluf_Shortcuts_GetFormForModel');
 
-class Backup_Views
+class Views
 {
 
     /**

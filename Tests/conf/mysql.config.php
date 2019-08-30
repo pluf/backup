@@ -17,31 +17,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 $cfg = array();
-$cfg['test'] = false;
-$cfg['timezone'] = 'Europe/Berlin';
-
-// Set the debug variable to true to force the recompilation of all
-// the templates each time during development
-$cfg['debug'] = true;
-$cfg['installed_apps'] = array(
-        'Pluf'
-);
-
-// Temporary folder where the script is writing the compiled templates,
-// cached data and other temporary resources.
-// It must be writeable by your webserver instance.
-// It is mandatory if you are using the template system.
-$cfg['tmp_folder'] = __DIR__ . '/../tmp';
-
-// The folder in which the templates of the application are located.
-$cfg['templates_folder'] = array(
-        __DIR__ . '/../templates'
-);
-
-
-// Default mimetype of the document your application is sending.
-// It can be overwritten for a given response if needed.
-$cfg['mimetype'] = 'text/html';
 
 // Default database configuration. The database defined here will be
 // directly accessible from Pluf::db() of course it is still possible
@@ -51,18 +26,15 @@ $cfg['db_password'] = '';
 $cfg['db_server'] = 'localhost';
 $cfg['db_database'] = 'test';
 
-$cfg['app_base'] = '/testapp';
-$cfg['url_format'] = 'simple';
-
-
 // Must be shared by all the installed_apps and the core framework.
 // That way you can have several installations of the core framework.
-$cfg['db_table_prefix'] = 'backup_unit_tests_';
+$cfg['db_table_prefix'] = 'tenant_unit_tests_';
 
 // Starting version 4.1 of MySQL the utf-8 support is "correct".
 // The reason of the db_version for MySQL is only for that.
-$cfg['db_version'] = '5.4.1';
+$cfg['db_version'] = '5.5.33';
 $cfg['db_engine'] = 'MySQL';
 
 return $cfg;
+
 

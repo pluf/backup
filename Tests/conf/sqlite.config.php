@@ -16,6 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-return array();
+$cfg = array();
 
+// Default database configuration. The database defined here will be
+// directly accessible from Pluf::db() of course it is still possible
+// to open any other number of database connections through Pluf_DB
+$cfg['db_login'] = 'testpluf';
+$cfg['db_password'] = 'testpluf';
+$cfg['db_server'] = 'localhost';
+$cfg['db_database'] = __DIR__ . '/../tmp/tmp.sqlite.db';
+
+// Must be shared by all the installed_apps and the core framework.
+// That way you can have several installations of the core framework.
+$cfg['db_table_prefix'] = 'tenant_unit_tests_';
+
+// Starting version 4.1 of MySQL the utf-8 support is "correct".
+// The reason of the db_version for MySQL is only for that.
+$cfg['db_version'] = '5.0';
+$cfg['db_engine'] = 'SQLite';
+
+return $cfg;
 

@@ -17,15 +17,23 @@
 	],
 	"minimum-stability" : "stable",
 	"require" : {
-		"pluf/core" : "5.9.x"
+		"pluf/core" : "5.9.x",
+		"pluf/monitor" : "5.9.x"
 	},
 	"require-dev" : {
 		"pluf/test" : "5.9.x",
+		"pluf/cms" : "5.9.x",
+		"pluf/tenant" : "5.9.x",
 		"pluf/user" : "5.9.x"
 	},
-	"include-path" : [
-		"src/"
-	],
+	"autoload" : {
+		"psr-4" : {
+			"Pluf\\Backup\\" : ""
+		},
+		"exclude-from-classmap" : [
+			"/tests/"
+		]
+	},
 	"homepage" : "https://github.com/pluf/cache",
 	"support" : {
 		"email" : "info@pluf.ir",
