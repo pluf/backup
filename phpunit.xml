@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit colors="true">
 	<testsuites>
-		<testsuite name="Backup">
-			<directory>tests/Backup/</directory>
+		<testsuite name="Backup unit tests">
+			<directory>./Tests/</directory>
 		</testsuite>
 	</testsuites>
 
 	<!-- Code coverage -->
 	<filter>
 		<whitelist addUncoveredFilesFromWhitelist="true">
-			<directory suffix=".php">src</directory>
+			<directory suffix=".php"></directory>
+            <exclude>
+                <directory>./Tests</directory>
+                <directory>./vendor</directory>
+                <directory>./build</directory>
+            </exclude>
 		</whitelist>
 	</filter>
-	<logging>
-        <log type="coverage-clover" target="build/logs/clover.xml"/>
-	</logging>
+	<!-- <logging>
+		<log type="coverage-clover" target="build/logs/clover.xml" />
+	</logging> -->
 </phpunit>

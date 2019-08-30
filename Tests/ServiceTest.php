@@ -16,17 +16,30 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+namespace Pluf\Backup\Tests;
+
 require_once 'Pluf.php';
 
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\IncompleteTestError;
+
+use \Pluf;
+use \Pluf_Tenant;
+use \Pluf_Migration;
+use \Test_Client;
+use \Test_Assert;
+use \User_Role;
+use \User_Account;
+use \User_Credential;
+use \CMS_Content;
+
 
 /**
  *
  * @backupGlobals disabled
  * @backupStaticAttributes disabled
  */
-class Backup_ServiceTest extends TestCase
+class ServiceTest extends TestCase
 {
 
     /**
@@ -35,7 +48,7 @@ class Backup_ServiceTest extends TestCase
      */
     public static function installApps()
     {
-        $cfg = include __DIR__ . '/../conf/config.php';
+        $cfg = include __DIR__ . '/conf/config.php';
         $cfg['multitenant'] = false;
         Pluf::start($cfg);
         $m = new Pluf_Migration(Pluf::f('installed_apps'));
@@ -112,7 +125,7 @@ class Backup_ServiceTest extends TestCase
         fwrite($myfile, $txt);
         fclose($myfile);
 
-        $zipFilePath = __DIR__ . '/../tmp/backupfile' . rand() . '.zip';
+        $zipFilePath = __DIR__ . '/tmp/backupfile' . rand() . '.zip';
         Pluf\Backup\Service::storeData($zipFilePath);
         Test_Assert::assertTrue(file_exists($zipFilePath), 'Backup file is not created');
     }
