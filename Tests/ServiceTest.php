@@ -125,7 +125,7 @@ class ServiceTest extends TestCase
 
         $termtaxo = new CMS_TermTaxonomy();
         $termtaxo->term_id = $term;
-        $termtaxo->taxonomy = "category";
+        $termtaxo->taxonomy = "test";
         $termtaxo->create();
 
         $termtaxo->setAssoc($c);
