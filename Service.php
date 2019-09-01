@@ -108,7 +108,8 @@ class Service extends Pluf_Service
                                     $model->setAssoc($realObject);
                                 }
                             } else if ($field->type == 'foreignkey' && //
-                            array_key_exists($val['model'], $objectMap) && array_key_exists($model->$col, $objectMap[$val['model']])) {
+                                array_key_exists($val['model'], $objectMap) &&
+                                array_key_exists($model->$col, $objectMap[$val['model']])) {
                                 $relatedModel = $objectMap[$val['model']][$model->$col];
                                 $model->$col = $relatedModel['object'];
                             } else if ($field->type == 'file') {
