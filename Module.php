@@ -45,19 +45,28 @@ class Module
             'regex' => '#^/snapshots$#',
             'model' => 'Pluf\Backup\Views\Snapshot',
             'method' => 'find',
-            'http-method' => 'GET'
+            'http-method' => 'GET',
+            'precond' => array(
+                'User_Precondition::ownerRequired'
+            ),
         ),
         array(
             'regex' => '#^/snapshots$#',
             'model' => 'Pluf\Backup\Views\Snapshot',
             'method' => 'createSnapshot',
-            'http-method' => 'POST'
+            'http-method' => 'POST',
+            'precond' => array(
+                'User_Precondition::ownerRequired'
+            ),
         ),
         array(
             'regex' => '#^/snapshots$#',
             'model' => 'Pluf\Backup\Views\Snapshot',
             'method' => 'deleteSnapshot',
-            'http-method' => 'DELETE'
+            'http-method' => 'DELETE',
+            'precond' => array(
+                'User_Precondition::ownerRequired'
+            ),
         ),
         /*
          * Snapshot itmes
@@ -67,18 +76,27 @@ class Module
             'model' => 'Pluf\Backup\Views\Snapshot',
             'method' => 'method',
             'http-method' => 'GET',
+            'precond' => array(
+                'User_Precondition::ownerRequired'
+            ),
         ),
         array(
             'regex' => '#^/snapshots/(?P<modelId>\d+)$#',
             'model' => 'Pluf\Backup\Views\Snapshot',
             'method' => 'create',
             'http-method' => 'POST',
+            'precond' => array(
+                'User_Precondition::ownerRequired'
+            ),
         ),
         array(
             'regex' => '#^/snapshots/(?P<modelId>\d+)$#',
             'model' => 'Pluf\Backup\Views\Snapshot',
             'method' => 'method',
             'http-method' => 'DELETE',
+            'precond' => array(
+                'User_Precondition::ownerRequired'
+            ),
         ),
         /*
          * Resource
@@ -88,6 +106,9 @@ class Module
             'model' => 'Pluf\Backup\Views\Snapshot',
             'method' => 'downloadSnapshot',
             'http-method' => 'GET',
+            'precond' => array(
+                'User_Precondition::ownerRequired'
+            ),
         ),
     );
 }
