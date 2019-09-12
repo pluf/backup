@@ -18,9 +18,10 @@
  */
 namespace Pluf\Backup\Views;
 
-use Pluf_Views;
-use Pluf_Tenant;
 use Pluf\Backup\Service as BackupService;
+use Pluf_Views;
+use Pluf_HTTP_Response_File;
+use Pluf_Tenant;
 
 class Snapshot extends Pluf_Views
 {
@@ -55,5 +56,24 @@ class Snapshot extends Pluf_Views
 
         // return the result;
         return $snapshot;
+    }
+
+    /**
+     * Download the snapshot file
+     *
+     * @param Pluf_HTTP_Request $request
+     * @param array $match
+     * @param array $params
+     */
+    public function downloadSnapshot($request, $match, $params)
+    {
+        // GET data
+        $params['model'] = 'Pluf\Backup\Snapshot';
+        $snapshot = parent::getObject($request, $match, $params);
+
+        // Do
+        $response = new Pluf_HTTP_Response_File($snapshot->file_path, 'application/zip');
+        $response->headers['Content-Disposition'] = sprintf('attachment; filename="%s"', 'snapshot-' . $snapshot->id . '.zip');
+        return $response;
     }
 }

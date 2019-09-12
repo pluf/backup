@@ -86,7 +86,7 @@ class Module
         array(
             'regex' => '#^/snapshots/(?P<modelId>\d+)/content$#',
             'model' => 'Pluf\Backup\Views\Snapshot',
-            'method' => 'download',
+            'method' => 'downloadSnapshot',
             'http-method' => 'GET',
         ),
     );

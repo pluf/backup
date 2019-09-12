@@ -162,12 +162,58 @@ class RestTest extends TestCase
         $this->assertEquals($response->status_code, 200);
 
         // create snapshot
-        $response = $client->post('/backup/snapshots',array(
+        $response = $client->post('/backup/snapshots', array(
+            'title' => 'test',
+            'description' => 'test'
+        ));
+        $this->assertNotNull($response);
+        $this->assertEquals($response->status_code, 200);
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function dowloadTheSnapshot()
+    {
+        // we have to init client for eny test
+        $client = new Test_Client(array(
+            array(
+                'app' => 'Backup',
+                'regex' => '#^/backup#',
+                'base' => '',
+                'sub' => Pluf\Backup\Module::urls
+            ),
+            array(
+                'app' => 'User',
+                'regex' => '#^/user#',
+                'base' => '',
+                'sub' => include 'User/urls-v2.php'
+            )
+        ));
+        $client->clean();
+
+        // login
+        $response = $client->post('/user/login', array(
+            'login' => 'test',
+            'password' => 'test'
+        ));
+        $this->assertNotNull($response);
+        $this->assertEquals($response->status_code, 200);
+
+        // create snapshot
+        $response = $client->post('/backup/snapshots', array(
             'title' => 'test',
             'description' => 'test'
         ));
         $this->assertNotNull($response);
         $this->assertEquals($response->status_code, 200);
 
+        $actual = json_decode($response->content, true);
+
+        // download snapshot
+        $response = $client->get('/backup/snapshots/' . $actual['id'] . '/content');
+        $this->assertNotNull($response);
+        $this->assertEquals($response->status_code, 200);
     }
 }
