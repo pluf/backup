@@ -22,63 +22,93 @@ namespace Pluf\Backup;
 class Module
 {
     const moduleJsonPath = __DIR__ . '/module.json';
-    
+
     /**
      * All data model relations
      */
     const relations =  array();
 
     const urls = array(
+        array(
+            'regex' => '#^/snapshots/schema$#',
+            'model' => 'Pluf\Backup\Views\Snapshot',
+            'method' => 'getSchema',
+            'http-method' => 'GET',
+            'params' => array(
+                'model' => 'Pluf\Backup\Snapshot'
+            )
+        ),
         /*
          * Snapshots
          */
         array(
             'regex' => '#^/snapshots$#',
-            'model' => 'Backup\Views\Snapshot',
+            'model' => 'Pluf\Backup\Views\Snapshot',
             'method' => 'find',
-            'http-method' => 'GET'
+            'http-method' => 'GET',
+            'precond' => array(
+                'User_Precondition::ownerRequired'
+            ),
         ),
         array(
             'regex' => '#^/snapshots$#',
-            'model' => 'Backup\Views\Snapshot',
-            'method' => 'find',
-            'http-method' => 'POST'
+            'model' => 'Pluf\Backup\Views\Snapshot',
+            'method' => 'createSnapshot',
+            'http-method' => 'POST',
+            'precond' => array(
+                'User_Precondition::ownerRequired'
+            ),
         ),
         array(
             'regex' => '#^/snapshots$#',
-            'model' => 'Backup\Views\Snapshot',
-            'method' => 'find',
-            'http-method' => 'DELETE'
+            'model' => 'Pluf\Backup\Views\Snapshot',
+            'method' => 'deleteSnapshot',
+            'http-method' => 'DELETE',
+            'precond' => array(
+                'User_Precondition::ownerRequired'
+            ),
         ),
         /*
          * Snapshot itmes
          */
         array(
             'regex' => '#^/snapshots/(?P<modelId>\d+)$#',
-            'model' => 'Backup\Views\Snapshot',
+            'model' => 'Pluf\Backup\Views\Snapshot',
             'method' => 'method',
             'http-method' => 'GET',
+            'precond' => array(
+                'User_Precondition::ownerRequired'
+            ),
         ),
         array(
             'regex' => '#^/snapshots/(?P<modelId>\d+)$#',
-            'model' => 'Backup\Views\Snapshot',
-            'method' => 'method',
+            'model' => 'Pluf\Backup\Views\Snapshot',
+            'method' => 'create',
             'http-method' => 'POST',
+            'precond' => array(
+                'User_Precondition::ownerRequired'
+            ),
         ),
         array(
             'regex' => '#^/snapshots/(?P<modelId>\d+)$#',
-            'model' => 'Backup\Views\Snapshot',
+            'model' => 'Pluf\Backup\Views\Snapshot',
             'method' => 'method',
             'http-method' => 'DELETE',
+            'precond' => array(
+                'User_Precondition::ownerRequired'
+            ),
         ),
         /*
          * Resource
          */
         array(
             'regex' => '#^/snapshots/(?P<modelId>\d+)/content$#',
-            'model' => 'Backup\Views\Snapshot',
-            'method' => 'method',
+            'model' => 'Pluf\Backup\Views\Snapshot',
+            'method' => 'downloadSnapshot',
             'http-method' => 'GET',
+            'precond' => array(
+                'User_Precondition::ownerRequired'
+            ),
         ),
     );
 }
