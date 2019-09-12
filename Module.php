@@ -22,32 +22,41 @@ namespace Pluf\Backup;
 class Module
 {
     const moduleJsonPath = __DIR__ . '/module.json';
-    
+
     /**
      * All data model relations
      */
     const relations =  array();
 
     const urls = array(
+        array(
+            'regex' => '#^/snapshots/schema$#',
+            'model' => 'Pluf\Backup\Views\Snapshot',
+            'method' => 'getSchema',
+            'http-method' => 'GET',
+            'params' => array(
+                'model' => 'Pluf\Backup\Snapshot'
+            )
+        ),
         /*
          * Snapshots
          */
         array(
             'regex' => '#^/snapshots$#',
-            'model' => 'Backup\Views\Snapshot',
+            'model' => 'Pluf\Backup\Views\Snapshot',
             'method' => 'find',
             'http-method' => 'GET'
         ),
         array(
             'regex' => '#^/snapshots$#',
-            'model' => 'Backup\Views\Snapshot',
-            'method' => 'find',
+            'model' => 'Pluf\Backup\Views\Snapshot',
+            'method' => 'createSnapshot',
             'http-method' => 'POST'
         ),
         array(
             'regex' => '#^/snapshots$#',
-            'model' => 'Backup\Views\Snapshot',
-            'method' => 'find',
+            'model' => 'Pluf\Backup\Views\Snapshot',
+            'method' => 'deleteSnapshot',
             'http-method' => 'DELETE'
         ),
         /*
@@ -55,19 +64,19 @@ class Module
          */
         array(
             'regex' => '#^/snapshots/(?P<modelId>\d+)$#',
-            'model' => 'Backup\Views\Snapshot',
+            'model' => 'Pluf\Backup\Views\Snapshot',
             'method' => 'method',
             'http-method' => 'GET',
         ),
         array(
             'regex' => '#^/snapshots/(?P<modelId>\d+)$#',
-            'model' => 'Backup\Views\Snapshot',
-            'method' => 'method',
+            'model' => 'Pluf\Backup\Views\Snapshot',
+            'method' => 'create',
             'http-method' => 'POST',
         ),
         array(
             'regex' => '#^/snapshots/(?P<modelId>\d+)$#',
-            'model' => 'Backup\Views\Snapshot',
+            'model' => 'Pluf\Backup\Views\Snapshot',
             'method' => 'method',
             'http-method' => 'DELETE',
         ),
@@ -76,8 +85,8 @@ class Module
          */
         array(
             'regex' => '#^/snapshots/(?P<modelId>\d+)/content$#',
-            'model' => 'Backup\Views\Snapshot',
-            'method' => 'method',
+            'model' => 'Pluf\Backup\Views\Snapshot',
+            'method' => 'download',
             'http-method' => 'GET',
         ),
     );
