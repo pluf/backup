@@ -16,17 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace Pluf\Backup;
 
 class Module
 {
+
     const moduleJsonPath = __DIR__ . '/module.json';
 
     /**
      * All data model relations
      */
-    const relations =  array();
+    const relations = array();
 
     const urls = array(
         array(
@@ -44,11 +44,14 @@ class Module
         array(
             'regex' => '#^/snapshots$#',
             'model' => 'Pluf\Backup\Views\Snapshot',
-            'method' => 'find',
+            'method' => 'findObject',
             'http-method' => 'GET',
             'precond' => array(
                 'User_Precondition::ownerRequired'
             ),
+            'params' => array(
+                'model' => 'Pluf\Backup\Snapshot'
+            )
         ),
         array(
             'regex' => '#^/snapshots$#',
@@ -57,7 +60,7 @@ class Module
             'http-method' => 'POST',
             'precond' => array(
                 'User_Precondition::ownerRequired'
-            ),
+            )
         ),
         array(
             'regex' => '#^/snapshots$#',
@@ -66,7 +69,7 @@ class Module
             'http-method' => 'DELETE',
             'precond' => array(
                 'User_Precondition::ownerRequired'
-            ),
+            )
         ),
         /*
          * Snapshot itmes
@@ -78,7 +81,7 @@ class Module
             'http-method' => 'GET',
             'precond' => array(
                 'User_Precondition::ownerRequired'
-            ),
+            )
         ),
         array(
             'regex' => '#^/snapshots/(?P<modelId>\d+)$#',
@@ -87,7 +90,7 @@ class Module
             'http-method' => 'POST',
             'precond' => array(
                 'User_Precondition::ownerRequired'
-            ),
+            )
         ),
         array(
             'regex' => '#^/snapshots/(?P<modelId>\d+)$#',
@@ -96,7 +99,7 @@ class Module
             'http-method' => 'DELETE',
             'precond' => array(
                 'User_Precondition::ownerRequired'
-            ),
+            )
         ),
         /*
          * Resource
@@ -108,7 +111,7 @@ class Module
             'http-method' => 'GET',
             'precond' => array(
                 'User_Precondition::ownerRequired'
-            ),
-        ),
+            )
+        )
     );
 }
