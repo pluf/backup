@@ -22,13 +22,13 @@ Pluf::loadFunction('Pluf_Shortcuts_GetObjectOr404');
 Pluf::loadFunction('Backup_Shortcuts_BackupRun');
 Pluf::loadFunction('Pluf_Shortcuts_GetFormForModel');
 
-class Views
+class Views extends \Pluf_Views
 {
 
     /**
      *
-     * @param Pluf_HTTP_Request $request            
-     * @param array $match            
+     * @param Pluf_HTTP_Request $request
+     * @param array $match
      */
     public static function create ($request, $match)
     {
@@ -36,7 +36,7 @@ class Views
         $object = new Backup_Backup();
         $form = Pluf_Shortcuts_GetFormForModel($object, $request->REQUEST);
         $object = $form->save();
-        $object->file_path = sprintf('%s/%s/backups/%s', Pluf::f('upload_path'), 
+        $object->file_path = sprintf('%s/%s/backups/%s', Pluf::f('upload_path'),
                 $tenant->id, $object->id);
         $object->update();
         Backup_Shortcuts_BackupRun($object->file_path);
@@ -44,8 +44,8 @@ class Views
     }
 
     /**
-     * 
-     * @param Pluf_HTTP_Request $request            
+     *
+     * @param Pluf_HTTP_Request $request
      * @param array $match
      */
     public static function restore ($request, $match)
@@ -54,10 +54,10 @@ class Views
         Backup_Shortcuts_RestoreRun($backup->file_path);
         return new Pluf_HTTP_Response_Json($backup);
     }
-    
+
     /**
-     * 
-     * @param Pluf_HTTP_Request $request            
+     *
+     * @param Pluf_HTTP_Request $request
      * @param array $match
      */
     public static function download ($request, $match)
