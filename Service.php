@@ -62,9 +62,10 @@ class Service extends Pluf_Service
             // Load data
             $apps = Pluf::f('installed_apps');
             foreach ($apps as $app) {
-                if (! self::isSuportedApp($app)) {
-                    continue;
-                }
+                // Note: hadi, 98-08: We could remove this check in loading data and use this only while exporting or storing data.
+//                 if (! self::isSuportedApp($app)) {
+//                     continue;
+//                 }
                 if (false == ($file = Pluf::fileExists($app . '/module.json'))) {
                     continue;
                 }
