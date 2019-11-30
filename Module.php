@@ -77,8 +77,11 @@ class Module
         array(
             'regex' => '#^/snapshots/(?P<modelId>\d+)$#',
             'model' => 'Pluf\Backup\Views\Snapshot',
-            'method' => 'method',
+            'method' => 'getObject',
             'http-method' => 'GET',
+            'params' => array(
+                'model' => 'Pluf\Backup\Snapshot'
+            ),
             'precond' => array(
                 'User_Precondition::ownerRequired'
             )
