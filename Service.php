@@ -265,6 +265,6 @@ class Service extends Pluf_Service
 
     private static function isSuportedApp($app)
     {
-        return $app === 'CMS' || $app === 'Pluf';
+        return $app === 'CMS' || $app === 'Pluf' || $app === 'Shop';
     }
 }
