@@ -18,6 +18,8 @@
  */
 namespace Pluf\Backup;
 
+use Pluf;
+
 class Module extends \Pluf\Module
 {
 
@@ -28,4 +30,8 @@ class Module extends \Pluf\Module
      */
     const relations = array();
 
+    public function init(Pluf $bootstrap): void
+    {
+        // TODO:
+    }
 }

@@ -10,12 +10,14 @@ $cfg['debug'] = true;
 $cfg['timezone'] = 'Europe/Berlin';
 $cfg['installed_apps'] = array(
     'Pluf',
+    'User', 
     'Backup'
 );
 $cfg['mimetype'] = 'text/html';
 $cfg['app_base'] = '/testapp';
 $cfg['url_format'] = 'simple';
 $cfg['tmp_folder'] = '/tmp';
+$cfg['upload_path'] = '/tmp';
 $cfg['middleware_classes'] = array(
     'Pluf_Middleware_Session',
     'User_Middleware_Session'

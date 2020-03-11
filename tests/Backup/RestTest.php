@@ -44,26 +44,10 @@ class RestTest extends TestCase
      */
     public static function installApps()
     {
-        Pluf::start(__DIR__ . '/conf/config.php');
+        Pluf::start(__DIR__ . '/../conf/config.php');
         $m = new Pluf_Migration();
         $m->install();
-
-        // Test tenant
-        $tenant = new Pluf_Tenant();
-        $tenant->domain = 'localhost';
-        $tenant->subdomain = 'www';
-        $tenant->validate = true;
-
-        if (true !== $tenant->create()) {
-            throw new Exception('Faile to create new tenant');
-        }
-
-        $m->init($tenant);
-
-        if (! isset($GLOBALS['_PX_request'])) {
-            $GLOBALS['_PX_request'] = new Pluf_HTTP_Request('/');
-        }
-        $GLOBALS['_PX_request']->tenant = $tenant;
+        $m->init();
 
         // Test user
         $user = new User_Account();
@@ -92,8 +76,8 @@ class RestTest extends TestCase
      */
     public static function uninstallApps()
     {
-        $m = new Pluf_Migration(Pluf::f('installed_apps'));
-        $m->unInstall();
+        $m = new Pluf_Migration();
+        $m->uninstall();
     }
 
     /**

@@ -43,34 +43,10 @@ class ServiceTest extends TestCase
      */
     public static function installApps()
     {
-        Pluf::start(__DIR__ . '/conf/config.php');
+        Pluf::start(__DIR__ . '/../conf/config.php');
         $m = new Pluf_Migration();
         $m->install();
         $m->init();
-
-        if (! isset($GLOBALS['_PX_request'])) {
-            $GLOBALS['_PX_request'] = new Pluf_HTTP_Request('/');
-        }
-
-        // Test user
-        $user = new User_Account();
-        $user->login = 'test';
-        $user->is_active = true;
-        if (true !== $user->create()) {
-            throw new Exception();
-        }
-        // Credential of user
-        $credit = new User_Credential();
-        $credit->setFromFormData(array(
-            'account_id' => $user->id
-        ));
-        $credit->setPassword('test');
-        if (true !== $credit->create()) {
-            throw new Exception();
-        }
-
-        $per = User_Role::getFromString('tenant.owner');
-        $user->setAssoc($per);
     }
 
     /**
@@ -79,66 +55,66 @@ class ServiceTest extends TestCase
      */
     public static function uninstallApps()
     {
-        $m = new Pluf_Migration(Pluf::f('installed_apps'));
-        $m->unInstall();
+        $m = new Pluf_Migration();
+        $m->uninstall();
     }
 
-//     /**
-//      *
-//      * @test
-//      */
-//     public function createBackupTest()
-//     {
-//         // we have to init client for eny test
-//         $client = new Client();
-//         $client->clean();
+    // /**
+    // *
+    // * @test
+    // */
+    // public function createBackupTest()
+    // {
+    // // we have to init client for eny test
+    // $client = new Client();
+    // $client->clean();
 
-//         $name = 'test-content-' . rand();
+    // $name = 'test-content-' . rand();
 
-//         $c = new CMS_Content();
-//         $c->file_path = Pluf_Tenant::storagePath() . '/test.txt';
-//         $c->mime_time = 'text/plain';
-//         $c->name = $name;
-//         $c->create();
+    // $c = new CMS_Content();
+    // $c->file_path = Pluf_Tenant::storagePath() . '/test.txt';
+    // $c->mime_time = 'text/plain';
+    // $c->name = $name;
+    // $c->create();
 
-//         $term = new CMS_Term();
-//         $term->name = "my term";
-//         $term->create();
+    // $term = new CMS_Term();
+    // $term->name = "my term";
+    // $term->create();
 
-//         $termtaxo = new CMS_TermTaxonomy();
-//         $termtaxo->term_id = $term;
-//         $termtaxo->taxonomy = "test";
-//         $termtaxo->create();
+    // $termtaxo = new CMS_TermTaxonomy();
+    // $termtaxo->term_id = $term;
+    // $termtaxo->taxonomy = "test";
+    // $termtaxo->create();
 
-//         $termtaxo->setAssoc($c);
+    // $termtaxo->setAssoc($c);
 
-//         // create file
-//         $myfile = fopen($c->file_path, "w") or die("Unable to open file!");
-//         $txt = "John Doe\n";
-//         fwrite($myfile, $txt);
-//         $txt = "Jane Doe\n";
-//         fwrite($myfile, $txt);
-//         fclose($myfile);
+    // // create file
+    // $myfile = fopen($c->file_path, "w") or die("Unable to open file!");
+    // $txt = "John Doe\n";
+    // fwrite($myfile, $txt);
+    // $txt = "Jane Doe\n";
+    // fwrite($myfile, $txt);
+    // fclose($myfile);
 
-//         $zipFilePath = __DIR__ . '/tmp/backupfile' . rand() . '.zip';
-//         Pluf\Backup\Service::storeData($zipFilePath);
-//         Test_Assert::assertTrue(file_exists($zipFilePath), 'Backup file is not created');
+    // $zipFilePath = __DIR__ . '/tmp/backupfile' . rand() . '.zip';
+    // Pluf\Backup\Service::storeData($zipFilePath);
+    // Test_Assert::assertTrue(file_exists($zipFilePath), 'Backup file is not created');
 
-//         $termtaxo->delete();
-//         $term->delete();
-//         $c->delete();
+    // $termtaxo->delete();
+    // $term->delete();
+    // $c->delete();
 
-//         Pluf\Backup\Service::loadData($zipFilePath);
+    // Pluf\Backup\Service::loadData($zipFilePath);
 
-//         Pluf::loadFunction('CMS_Shortcuts_GetNamedContentOr404');
-//         $c = CMS_Shortcuts_GetNamedContentOr404($name);
-//         Test_Assert::assertFalse($c->isAnonymous());
-//         $list = $c->get_term_taxonomies_list();
+    // Pluf::loadFunction('CMS_Shortcuts_GetNamedContentOr404');
+    // $c = CMS_Shortcuts_GetNamedContentOr404($name);
+    // Test_Assert::assertFalse($c->isAnonymous());
+    // $list = $c->get_term_taxonomies_list();
 
-//         $zipFilePath2 = __DIR__ . '/tmp/backupfile2-' . rand() . '.zip';
-//         Pluf\Backup\Service::storeData($zipFilePath2);
-//         Test_Assert::assertTrue(file_exists($zipFilePath2), 'Backup file is not created');
-//     }
+    // $zipFilePath2 = __DIR__ . '/tmp/backupfile2-' . rand() . '.zip';
+    // Pluf\Backup\Service::storeData($zipFilePath2);
+    // Test_Assert::assertTrue(file_exists($zipFilePath2), 'Backup file is not created');
+    // }
 
     /**
      *
@@ -152,8 +128,8 @@ class ServiceTest extends TestCase
 
         Pluf\Backup\Service::loadData(__DIR__ . '/template-001.zip');
 
-        $zipFilePath2 = __DIR__ . '/tmp/templateback-' . rand() . '.zip';
+        $zipFilePath2 = '/tmp/templateback-' . rand() . '.zip';
         Pluf\Backup\Service::storeData($zipFilePath2);
-        Test_Assert::assertTrue(file_exists($zipFilePath2), 'Backup file is not created');
+        $this->assertTrue(file_exists($zipFilePath2), 'Backup file is not created');
     }
 }

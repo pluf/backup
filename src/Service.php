@@ -19,15 +19,12 @@
  */
 namespace Pluf\Backup;
 
-use function GuzzleHttp\json_decode;
-use function GuzzleHttp\json_encode;
 use Pluf\Exception;
-use function Pluf_Translation\sprintf;
-use function Webmozart\Assert\Assert\strlen;
 use Pluf;
 use Pluf_FileUtil;
 use Pluf_Service;
 use Pluf_Tenant;
+use Pluf\ModelUtils;
 
 /**
  * !! You need also to backup Pluf if you want the full backup.
@@ -148,20 +145,7 @@ class Service extends Pluf_Service
         // TODO: maso, 2019: make module backups in the directory
         $apps = Pluf::f('installed_apps');
         foreach ($apps as $app) {
-            if (! self::isSuportedApp($app)) {
-                continue;
-            }
-            if (false == ($file = Pluf::fileExists($app . '/module.json'))) {
-                continue;
-            }
-            $myfile = fopen($file, "r") or die("Unable to open module.json!");
-            $json = fread($myfile, filesize($file));
-            fclose($myfile);
-            $moduel = json_decode($json, true);
-            if (! array_key_exists('model', $moduel)) {
-                continue;
-            }
-            $models = $moduel['model'];
+            $models = ModelUtils::getModelsFromModule($app);
             // Now, for each table, we dump the content in json, this is a
             // memory intensive operation
             $to_json = array();

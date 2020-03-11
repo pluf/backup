@@ -20,7 +20,6 @@ namespace Pluf\Backup\Views;
 
 use Pluf\Exception;
 use Pluf\Backup\Service as BackupService;
-use function Pluf_Translation\sprintf;
 use Pluf_HTTP_Request;
 use Pluf_HTTP_Response_File;
 use Pluf_Tenant;
