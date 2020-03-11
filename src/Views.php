@@ -18,6 +18,14 @@
  */
 namespace Pluf\Backup;
 
+use function Mail_mime\basename;
+use function Pluf_Translation\sprintf;
+use Pluf;
+use Pluf_HTTP_Response_File;
+use Pluf_HTTP_Response_Json;
+use Pluf_Tenant;
+use Pluf_HTTP_Request;
+
 Pluf::loadFunction('Pluf_Shortcuts_GetObjectOr404');
 Pluf::loadFunction('Backup_Shortcuts_BackupRun');
 Pluf::loadFunction('Pluf_Shortcuts_GetFormForModel');
@@ -33,7 +41,7 @@ class Views extends \Pluf_Views
     public function create($request, $match)
     {
         $tenant = Pluf_Tenant::current();
-        $object = new Backup_Backup();
+        $object = new Snapshot();
         $form = Pluf_Shortcuts_GetFormForModel($object, $request->REQUEST);
         $object = $form->save();
         $object->file_path = sprintf('%s/%s/backups/%s', Pluf::f('upload_path'), $tenant->id, $object->id);

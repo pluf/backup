@@ -19,12 +19,15 @@
  */
 namespace Pluf\Backup;
 
+use function GuzzleHttp\json_decode;
+use function GuzzleHttp\json_encode;
+use Pluf\Exception;
+use function Pluf_Translation\sprintf;
+use function Webmozart\Assert\Assert\strlen;
 use Pluf;
-use Pluf_Exception;
-use Pluf_Tenant;
-use Pluf_Service;
-use ZipArchive;
 use Pluf_FileUtil;
+use Pluf_Service;
+use Pluf_Tenant;
 
 /**
  * !! You need also to backup Pluf if you want the full backup.
@@ -33,7 +36,7 @@ use Pluf_FileUtil;
  * @param
  *            string Path to the folder where to store the backup
  * @return int The backup was correctly written
- *
+ *        
  */
 class Service extends Pluf_Service
 {
@@ -63,9 +66,9 @@ class Service extends Pluf_Service
             $apps = Pluf::f('installed_apps');
             foreach ($apps as $app) {
                 // Note: hadi, 98-08: We could remove this check in loading data and use this only while exporting or storing data.
-//                 if (! self::isSuportedApp($app)) {
-//                     continue;
-//                 }
+                // if (! self::isSuportedApp($app)) {
+                // continue;
+                // }
                 if (false == ($file = Pluf::fileExists($app . '/module.json'))) {
                     continue;
                 }
@@ -81,7 +84,7 @@ class Service extends Pluf_Service
                     continue;
                 }
                 $dataFile = sprintf('%s/%s.json', $folder, $app);
-                if(!file_exists($dataFile)){
+                if (! file_exists($dataFile)) {
                     continue;
                 }
                 $full_data = json_decode(file_get_contents($dataFile), true);
@@ -109,8 +112,7 @@ class Service extends Pluf_Service
                                     $model->setAssoc($realObject);
                                 }
                             } else if ($field->type == 'foreignkey' && //
-                                array_key_exists($val['model'], $objectMap) &&
-                                array_key_exists($model->$col, $objectMap[$val['model']])) {
+                            array_key_exists($val['model'], $objectMap) && array_key_exists($model->$col, $objectMap[$val['model']])) {
                                 $relatedModel = $objectMap[$val['model']][$model->$col];
                                 $model->$col = $relatedModel['object'];
                             } else if ($field->type == 'file') {

@@ -78,8 +78,8 @@
 			}
 		}, {
 			"type" : "path",
-			"url" : "../tenant",
-			"name" : "pluf/tenant",
+			"url" : "../monitor",
+			"name" : "pluf/monitor",
 			"options" : {
 				"symlink" : true
 			}
