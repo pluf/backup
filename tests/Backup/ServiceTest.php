@@ -98,7 +98,7 @@ class ServiceTest extends TestCase
 
     // $zipFilePath = __DIR__ . '/tmp/backupfile' . rand() . '.zip';
     // Pluf\Backup\Service::storeData($zipFilePath);
-    // Test_Assert::assertTrue(file_exists($zipFilePath), 'Backup file is not created');
+    // $this->assertTrue(file_exists($zipFilePath), 'Backup file is not created');
 
     // $termtaxo->delete();
     // $term->delete();
@@ -108,12 +108,12 @@ class ServiceTest extends TestCase
 
     // Pluf::loadFunction('CMS_Shortcuts_GetNamedContentOr404');
     // $c = CMS_Shortcuts_GetNamedContentOr404($name);
-    // Test_Assert::assertFalse($c->isAnonymous());
+    // $this->assertFalse($c->isAnonymous());
     // $list = $c->get_term_taxonomies_list();
 
     // $zipFilePath2 = __DIR__ . '/tmp/backupfile2-' . rand() . '.zip';
     // Pluf\Backup\Service::storeData($zipFilePath2);
-    // Test_Assert::assertTrue(file_exists($zipFilePath2), 'Backup file is not created');
+    // $this->assertTrue(file_exists($zipFilePath2), 'Backup file is not created');
     // }
 
     /**
