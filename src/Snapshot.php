@@ -24,8 +24,8 @@ use Pluf_Model;
  *
  * @author maso <mostafa.barmshory@dpq.co.ir>
  * @author hadi <mohammad.hadi.mansouri@dpq.co.ir>
- *
- *
+ *        
+ *        
  */
 class Snapshot extends Pluf_Model
 {
@@ -105,12 +105,6 @@ class Snapshot extends Pluf_Model
         );
     }
 
-    /**
-     * پیش ذخیره را انجام می‌دهد
-     *
-     * @param $create حالت
-     *            ساخت یا به روز رسانی را تعیین می‌کند
-     */
     function preSave($create = false)
     {
         if ($this->id == '') {

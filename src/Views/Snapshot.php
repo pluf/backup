@@ -18,10 +18,12 @@
  */
 namespace Pluf\Backup\Views;
 
+use Pluf\Exception;
 use Pluf\Backup\Service as BackupService;
-use Pluf_Views;
+use Pluf_HTTP_Request;
 use Pluf_HTTP_Response_File;
 use Pluf_Tenant;
+use Pluf_Views;
 
 class Snapshot extends Pluf_Views
 {
@@ -33,7 +35,7 @@ class Snapshot extends Pluf_Views
      * @param array $match
      * @param array $params
      */
-    public function createSnapshot($request, $match, $params)
+    public function createSnapshot(Pluf_HTTP_Request $request, $match, $params)
     {
         // create the object
         $params['model'] = 'Pluf\Backup\Snapshot';

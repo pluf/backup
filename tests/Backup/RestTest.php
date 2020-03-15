@@ -16,23 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-namespace Pluf\Backup\Tests;
+namespace Pluf\Test\Backup;
 
-require_once 'Pluf.php';
-
-use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\IncompleteTestError;
+use function GuzzleHttp\json_decode;
+use Pluf\Exception;
+use Pluf\Test\Client;
+use Pluf\Test\TestCase;
 use Pluf;
-use Pluf_Tenant;
+use Pluf_HTTP_Request;
 use Pluf_Migration;
-use Test_Client;
-use Test_Assert;
-use User_Role;
+use Pluf_Tenant;
 use User_Account;
 use User_Credential;
-use CMS_Content;
-use CMS_Term;
-use CMS_TermTaxonomy;
+use User_Role;
 
 /**
  *
@@ -48,27 +44,10 @@ class RestTest extends TestCase
      */
     public static function installApps()
     {
-        $cfg = include __DIR__ . '/conf/config.php';
-        $cfg['multitenant'] = false;
-        Pluf::start($cfg);
-        $m = new Pluf_Migration(Pluf::f('installed_apps'));
+        Pluf::start(__DIR__ . '/../conf/config.php');
+        $m = new Pluf_Migration();
         $m->install();
-
-        // Test tenant
-        $tenant = new Pluf_Tenant();
-        $tenant->domain = 'localhost';
-        $tenant->subdomain = 'www';
-        $tenant->validate = true;
-        if (true !== $tenant->create()) {
-            throw new Pluf_Exception('Faile to create new tenant');
-        }
-
-        $m->init($tenant);
-
-        if (! isset($GLOBALS['_PX_request'])) {
-            $GLOBALS['_PX_request'] = new Pluf_HTTP_Request('/');
-        }
-        $GLOBALS['_PX_request']->tenant = $tenant;
+        $m->init();
 
         // Test user
         $user = new User_Account();
@@ -97,8 +76,8 @@ class RestTest extends TestCase
      */
     public static function uninstallApps()
     {
-        $m = new Pluf_Migration(Pluf::f('installed_apps'));
-        $m->unInstall();
+        $m = new Pluf_Migration();
+        $m->uninstall();
     }
 
     /**
@@ -108,20 +87,7 @@ class RestTest extends TestCase
     public function gettingSnapshotSchema()
     {
         // we have to init client for eny test
-        $client = new Test_Client(array(
-            array(
-                'app' => 'Backup',
-                'regex' => '#^/backup#',
-                'base' => '',
-                'sub' => Pluf\Backup\Module::urls
-            ),
-            array(
-                'app' => 'User',
-                'regex' => '#^/user#',
-                'base' => '',
-                'sub' => include 'User/urls-v2.php'
-            )
-        ));
+        $client = new Client();
         $client->clean();
 
         // login
@@ -137,20 +103,7 @@ class RestTest extends TestCase
     public function loadTemplate()
     {
         // we have to init client for eny test
-        $client = new Test_Client(array(
-            array(
-                'app' => 'Backup',
-                'regex' => '#^/backup#',
-                'base' => '',
-                'sub' => Pluf\Backup\Module::urls
-            ),
-            array(
-                'app' => 'User',
-                'regex' => '#^/user#',
-                'base' => '',
-                'sub' => include 'User/urls-v2.php'
-            )
-        ));
+        $client = new Client();
         $client->clean();
 
         // login
@@ -177,20 +130,7 @@ class RestTest extends TestCase
     public function dowloadTheSnapshot()
     {
         // we have to init client for eny test
-        $client = new Test_Client(array(
-            array(
-                'app' => 'Backup',
-                'regex' => '#^/backup#',
-                'base' => '',
-                'sub' => Pluf\Backup\Module::urls
-            ),
-            array(
-                'app' => 'User',
-                'regex' => '#^/user#',
-                'base' => '',
-                'sub' => include 'User/urls-v2.php'
-            )
-        ));
+        $client = new Client();
         $client->clean();
 
         // login

@@ -19,12 +19,12 @@
  */
 namespace Pluf\Backup;
 
+use Pluf\Exception;
 use Pluf;
-use Pluf_Exception;
-use Pluf_Tenant;
-use Pluf_Service;
-use ZipArchive;
 use Pluf_FileUtil;
+use Pluf_Service;
+use Pluf_Tenant;
+use Pluf\ModelUtils;
 
 /**
  * !! You need also to backup Pluf if you want the full backup.
@@ -33,7 +33,7 @@ use Pluf_FileUtil;
  * @param
  *            string Path to the folder where to store the backup
  * @return int The backup was correctly written
- *
+ *        
  */
 class Service extends Pluf_Service
 {
@@ -63,9 +63,9 @@ class Service extends Pluf_Service
             $apps = Pluf::f('installed_apps');
             foreach ($apps as $app) {
                 // Note: hadi, 98-08: We could remove this check in loading data and use this only while exporting or storing data.
-//                 if (! self::isSuportedApp($app)) {
-//                     continue;
-//                 }
+                // if (! self::isSuportedApp($app)) {
+                // continue;
+                // }
                 if (false == ($file = Pluf::fileExists($app . '/module.json'))) {
                     continue;
                 }
@@ -81,7 +81,7 @@ class Service extends Pluf_Service
                     continue;
                 }
                 $dataFile = sprintf('%s/%s.json', $folder, $app);
-                if(!file_exists($dataFile)){
+                if (! file_exists($dataFile)) {
                     continue;
                 }
                 $full_data = json_decode(file_get_contents($dataFile), true);
@@ -109,8 +109,7 @@ class Service extends Pluf_Service
                                     $model->setAssoc($realObject);
                                 }
                             } else if ($field->type == 'foreignkey' && //
-                                array_key_exists($val['model'], $objectMap) &&
-                                array_key_exists($model->$col, $objectMap[$val['model']])) {
+                            array_key_exists($val['model'], $objectMap) && array_key_exists($model->$col, $objectMap[$val['model']])) {
                                 $relatedModel = $objectMap[$val['model']][$model->$col];
                                 $model->$col = $relatedModel['object'];
                             } else if ($field->type == 'file') {
@@ -146,20 +145,7 @@ class Service extends Pluf_Service
         // TODO: maso, 2019: make module backups in the directory
         $apps = Pluf::f('installed_apps');
         foreach ($apps as $app) {
-            if (! self::isSuportedApp($app)) {
-                continue;
-            }
-            if (false == ($file = Pluf::fileExists($app . '/module.json'))) {
-                continue;
-            }
-            $myfile = fopen($file, "r") or die("Unable to open module.json!");
-            $json = fread($myfile, filesize($file));
-            fclose($myfile);
-            $moduel = json_decode($json, true);
-            if (! array_key_exists('model', $moduel)) {
-                continue;
-            }
-            $models = $moduel['model'];
+            $models = ModelUtils::getModelsFromModule($app);
             // Now, for each table, we dump the content in json, this is a
             // memory intensive operation
             $to_json = array();

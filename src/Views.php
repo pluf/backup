@@ -18,8 +18,11 @@
  */
 namespace Pluf\Backup;
 
+use Pluf;
+use Pluf_HTTP_Response_Json;
+use Pluf_Tenant;
+use Pluf_HTTP_Request;
 Pluf::loadFunction('Pluf_Shortcuts_GetObjectOr404');
-Pluf::loadFunction('Backup_Shortcuts_BackupRun');
 Pluf::loadFunction('Pluf_Shortcuts_GetFormForModel');
 
 class Views extends \Pluf_Views
@@ -30,17 +33,16 @@ class Views extends \Pluf_Views
      * @param Pluf_HTTP_Request $request
      * @param array $match
      */
-    public static function create ($request, $match)
+    public function create(Pluf_HTTP_Request $request, $match)
     {
         $tenant = Pluf_Tenant::current();
-        $object = new Backup_Backup();
+        $object = new Snapshot();
         $form = Pluf_Shortcuts_GetFormForModel($object, $request->REQUEST);
         $object = $form->save();
-        $object->file_path = sprintf('%s/%s/backups/%s', Pluf::f('upload_path'),
-                $tenant->id, $object->id);
+        $object->file_path = sprintf('%s/%s/backups/%s', Pluf::f('upload_path'), $tenant->id, $object->id);
         $object->update();
         Backup_Shortcuts_BackupRun($object->file_path);
-        return new Pluf_HTTP_Response_Json($object);
+        return $object;
     }
 
     /**
@@ -48,30 +50,10 @@ class Views extends \Pluf_Views
      * @param Pluf_HTTP_Request $request
      * @param array $match
      */
-    public static function restore ($request, $match)
+    public function restore($request, $match)
     {
         $backup = Pluf_Shortcuts_GetObjectOr404('Backup_Backup', $match['modelId']);
         Backup_Shortcuts_RestoreRun($backup->file_path);
         return new Pluf_HTTP_Response_Json($backup);
-    }
-
-    /**
-     *
-     * @param Pluf_HTTP_Request $request
-     * @param array $match
-     */
-    public static function download ($request, $match)
-    {
-        $backup = Pluf_Shortcuts_GetObjectOr404('Backup_Backup', $match['modelId']);
-        $zip = new ZipArchive;
-        $file = Pluf::f('tmp_folder', '/var/tmp').'/backup.zip';
-        $zip->open($file, ZipArchive::CREATE);
-        foreach (glob($backup->file_path.'/*') as $f) {
-            $zip->addFile($f, basename($f));
-        }
-        $zip->close();
-        $response = new Pluf_HTTP_Response_File($file, 'application/zip', true);
-        $response->headers['Content-Disposition'] = 'attachment; filename="backup.zip"';
-        return $response;
     }
 }

@@ -15,25 +15,6 @@
 			"role" : "developer"
 		}
 	],
-	"minimum-stability" : "stable",
-	"require" : {
-		"pluf/core" : "5.13.x",
-		"pluf/monitor" : "5.13.x"
-	},
-	"require-dev" : {
-		"pluf/test" : "5.13.x",
-		"pluf/cms" : "5.13.x",
-		"pluf/tenant" : "5.13.x",
-		"pluf/user" : "5.13.x"
-	},
-	"autoload" : {
-		"psr-4" : {
-			"Pluf\\Backup\\" : ""
-		},
-		"exclude-from-classmap" : [
-			"/tests/"
-		]
-	},
 	"homepage" : "https://github.com/pluf/cache",
 	"support" : {
 		"email" : "info@pluf.ir",
@@ -47,5 +28,68 @@
 		"php",
 		"pluf-module",
 		"backup"
+	],
+	"minimum-stability" : "stable",
+	"require" : {
+		"pluf/core" : "6.x",
+		"pluf/monitor" : "6.x",
+		"pluf/user" : "6.x"
+	},
+	"require-dev" : {
+		"pluf/test" : "6.x"
+	},
+	"autoload" : {
+		"psr-4" : {
+			"Pluf\\Backup\\" : "src/"
+		}
+	},
+	"autoload-dev" : {
+		"psr-4" : {
+			"Pluf\\Test\\" : "tests"
+		}
+	},
+	"repositories" : [{
+			"type" : "path",
+			"url" : "../core",
+			"name" : "pluf/core",
+			"options" : {
+				"symlink" : true
+			}
+		}, {
+			"type" : "path",
+			"url" : "../test",
+			"name" : "pluf/test",
+			"options" : {
+				"symlink" : true
+			}
+		}, {
+			"type" : "path",
+			"url" : "../http2",
+			"name" : "pluf/http2",
+			"options" : {
+				"symlink" : true
+			}
+		}, {
+			"type" : "path",
+			"url" : "../cms",
+			"name" : "pluf/cms",
+			"options" : {
+				"symlink" : true
+			}
+		}, {
+			"type" : "path",
+			"url" : "../monitor",
+			"name" : "pluf/monitor",
+			"options" : {
+				"symlink" : true
+			}
+		}, {
+			"type" : "path",
+			"url" : "../user",
+			"name" : "pluf/user",
+			"options" : {
+				"symlink" : true
+			}
+		}
 	]
 }
