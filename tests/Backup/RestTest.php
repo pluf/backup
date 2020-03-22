@@ -18,7 +18,6 @@
  */
 namespace Pluf\Test\Backup;
 
-use const False\MyClass\true;
 use function GuzzleHttp\json_decode;
 use Pluf\Exception;
 use Pluf\Test\Client;
