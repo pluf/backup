@@ -18,16 +18,10 @@
  */
 namespace Pluf\Test\Backup;
 
-use Pluf\Exception;
 use Pluf\Test\Client;
 use Pluf\Test\TestCase;
-use Pluf\Test\Test_Assert;
 use Pluf;
-use Pluf_HTTP_Request;
 use Pluf_Migration;
-use User_Account;
-use User_Credential;
-use User_Role;
 
 /**
  *
