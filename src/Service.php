@@ -97,7 +97,7 @@ class Service extends Pluf_Service
                 }
 
                 // load relation and files
-                foreach ($objectMap as $type => $objects) {
+                foreach ($objectMap as /* $type =>  */$objects) {
                     foreach ($objects as $object) {
                         $model = $object['object'];
                         foreach ($model->_a['cols'] as $col => $val) {
