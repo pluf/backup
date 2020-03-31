@@ -25,6 +25,7 @@ use Pluf_FileUtil;
 use Pluf_Service;
 use Pluf_Tenant;
 use Pluf\ModelUtils;
+use Pluf\Db\Engine;
 
 /**
  * !! You need also to backup Pluf if you want the full backup.
@@ -108,7 +109,7 @@ class Service extends Pluf_Service
                                     $realObject = $relatedModel['object'];
                                     $model->setAssoc($realObject);
                                 }
-                            } else if ($field->type == 'foreignkey' && //
+                            } else if ($field->type == Engine::FOREIGNKEY && //
                             array_key_exists($val['model'], $objectMap) && array_key_exists($model->$col, $objectMap[$val['model']])) {
                                 $relatedModel = $objectMap[$val['model']][$model->$col];
                                 $model->$col = $relatedModel['object'];
@@ -206,14 +207,13 @@ class Service extends Pluf_Service
         $storagePathLen = strlen($storagePath);
 
         foreach ($model->_a['cols'] as $col => $val) {
-            $field = new $val['type']();
-            if ($field->type == 'manytomany') {
+            if ($val['type'] == Engine::MANY_TO_MANY) {
                 $func = 'get_' . $col . '_list';
                 $out['fields'][$col] = array();
                 foreach ($model->$func() as $item) {
                     $out['fields'][$col][] = $item->id;
                 }
-            } else if ($field->type == 'file') {
+            } else if ($val['type'] == Engine::FILE) {
                 $str = $model->$col;
                 if (substr($model->$col, 0, $storagePathLen) == $storagePath) {
                     $str = substr($str, $storagePathLen);

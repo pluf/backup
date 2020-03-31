@@ -40,7 +40,7 @@ class Snapshot extends Pluf_Model
         $this->_a['cols'] = array(
             // شناسه‌ها
             'id' => array(
-                'type' => 'Pluf_DB_Field_Sequence',
+                'type' => 'Sequence',
                 'blank' => false,
                 'verbose' => __('first name'),
                 'help_text' => __('id'),
@@ -48,7 +48,7 @@ class Snapshot extends Pluf_Model
                 'readable' => true
             ),
             'title' => array(
-                'type' => 'Pluf_DB_Field_Varchar',
+                'type' => 'Varchar',
                 'size' => 250,
                 'default' => 'no title',
                 'verbose' => __('title'),
@@ -58,7 +58,7 @@ class Snapshot extends Pluf_Model
                 'readable' => true
             ),
             'description' => array(
-                'type' => 'Pluf_DB_Field_Varchar',
+                'type' => 'Varchar',
                 'size' => 250,
                 'default' => 'auto created content',
                 'verbose' => __('description'),
@@ -68,7 +68,7 @@ class Snapshot extends Pluf_Model
                 'readable' => true
             ),
             'state' => array(
-                'type' => 'Pluf_DB_Field_Varchar',
+                'type' => 'Varchar',
                 'size' => 128,
                 'default' => 'wait',
                 'verbose' => 'state',
@@ -78,7 +78,7 @@ class Snapshot extends Pluf_Model
                 'readable' => true
             ),
             'file_path' => array(
-                'type' => 'Pluf_DB_Field_Varchar',
+                'type' => 'Varchar',
                 'size' => 250,
                 'verbose' => __('file path'),
                 'help_text' => __('content file path'),
@@ -87,7 +87,7 @@ class Snapshot extends Pluf_Model
                 'readable' => false
             ),
             'creation_dtime' => array(
-                'type' => 'Pluf_DB_Field_Datetime',
+                'type' => 'Datetime',
                 'verbose' => __('creation'),
                 'help_text' => __('content creation time'),
                 'blank' => false,
@@ -95,7 +95,7 @@ class Snapshot extends Pluf_Model
                 'readable' => true
             ),
             'modif_dtime' => array(
-                'type' => 'Pluf_DB_Field_Datetime',
+                'type' => 'Datetime',
                 'verbose' => __('modification'),
                 'help_text' => __('content modification time'),
                 'blank' => false,
